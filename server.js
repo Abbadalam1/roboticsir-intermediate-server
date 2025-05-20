@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Initialize Firebase Admin SDK
-const serviceAccount = require('./config/roboticsir-c2dff-firebase-adminsdk-fbsvc-d559c4cf69'); // Path to your service account key
+const serviceAccount = require('./config/roboticsir-c2dff-firebase-adminsdk-fbsvc-d559c4cf69.json'); // Path to your service account key
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
