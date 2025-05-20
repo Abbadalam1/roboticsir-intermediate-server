@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Initialize Firebase Admin SDK
-const serviceAccount = require('./config/roboticsir-c2dff-firebase-adminsdk-fbsvc-d559c4cf69.json'); // Path to your service account key
+const serviceAccount = require('./config/roboticsir-c2dff-firebase-adminsdk-fbsvc-d559c4cf69.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -61,7 +61,7 @@ app.post('/proxy-login', async (req, res) => {
         // Call web team's API using the isolated client
         const user = await webApiClient.login(email, password);
 
-        // Generate Firebase custom token (on our side, no impact on web team's logic)
+        // Generate Firebase custom token
         const customToken = await admin.auth().createCustomToken(user.uid);
         console.log(`Generated Firebase custom token for UID: ${user.uid}`);
 
@@ -83,10 +83,13 @@ app.post('/proxy-login', async (req, res) => {
     }
 });
 
+// Add a root route for debugging
+app.get('/', (req, res) => {
+    res.status(200).send('RoboSir Intermediate Server is running! Use POST /proxy-login to login.');
+});
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Intermediate server running on port ${PORT}`);
 });
-
-//node server.js(run on terminal to start the server on local host for testing)
